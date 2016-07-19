@@ -69,18 +69,7 @@ public class Main {
                     int id = Integer.parseInt((request.queryParams("messageNumber")));
                     String name = session.attribute("userName");
                     User user = users.get(name);
-
-                    try {
-                        user.messages.remove(id - 1);
-
-                    }catch (IndexOutOfBoundsException e){
-                        response.redirect("/");
-                        return "";
-                    }
-
                     messages.put(user.messages.get(id - 1), user);
-
-
                     response.redirect("/");
                     return "";
                 })
@@ -94,16 +83,6 @@ public class Main {
                     String editMessage = request.queryParams("editedMessage");
                     String name = session.attribute("userName");
                     User user = users.get(name);
-
-                    try{
-                        user.messages.remove((Integer) id);
-                        user.messages.add(id, new Message(editMessage, id+1));
-
-                    }catch (IndexOutOfBoundsException e){
-                        response.redirect("/");
-                        return "";
-                    }
-
                     messages.put(user.messages.get(id), user);
 
 
@@ -120,13 +99,9 @@ public class Main {
                     String message = request.queryParams("userMessage");
 
                     User user = users.get(name);
-
                     user.messages.add(new Message(message, user.id++));
                     session.attribute("userMessage", message);
-
                     messages.put(session.attribute("userMessage"), user);
-
-
                     response.redirect("/");
                     return "";
                 })

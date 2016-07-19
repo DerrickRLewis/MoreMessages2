@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+
+<body>
+
+<form action="/create-message" method="post">
+    <input type="text" placeholder="Write a message" name="userMessage"/>
+    <button type="submit">Submit</button>
+</form>
+
+<h2>MESSAGES</h2>
+<!--<ol>-->
+    <!--<li>Hello World</li>-->
+    <!--<li>I like turtles</li>-->
+    <!--<li>This is already better than twitter</li>-->
+<!--</ol>-->
+
+
+
+
+<form action="/delete-message" method="post">
+    <input type="number" placeholder="Message # " name="messageNumber"/>
+    <button type="submit">Delete</button>
+</form>
+
+<form action="/edit-message" method="post">
+    <input type="number" placeholder="Message # " name="messageIndex"/>
+    <input type="text" placeholder="Edit Message" name="editedMessage"/>
+    <button type="submit">Edit</button>
+</form>
+
+
+
+<br>
+{{name}}'s messages:
+</br>
+
+<ol>
+{{#messages}}
+
+    <li>{{message}}</li>
+
+{{/messages}}
+</ol>
+
+
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+</body>
+
+</html>
