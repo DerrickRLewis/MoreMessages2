@@ -9,9 +9,7 @@ import java.util.Map;
 public class Main {
 
     static HashMap<String, User> users = new HashMap<>();
-    static HashMap<Message, User> messages = new HashMap<>();
 
-//
     public static void main(String[] args) throws Exception {
         Spark.init();
 
@@ -62,6 +60,9 @@ public class Main {
                 })
         );
 
+        /**
+         * Does not work correctly
+         */
         Spark.post(
                 "/delete-message",
                 ((request, response) -> {
@@ -69,12 +70,17 @@ public class Main {
                     int id = Integer.parseInt((request.queryParams("messageNumber")));
                     String name = session.attribute("userName");
                     User user = users.get(name);
-                    messages.put(user.messages.get(id - 1), user);
+                    //user.messages.get(id - 1), user);
+                    user.messages.remove(id - 1);
+
+
                     response.redirect("/");
                     return "";
                 })
         );
-
+/**
+ * Does not work correctly
+ */
         Spark.post(
                 "/edit-message",
                 ((request, response) -> {
@@ -83,8 +89,11 @@ public class Main {
                     String editMessage = request.queryParams("editedMessage");
                     String name = session.attribute("userName");
                     User user = users.get(name);
-                    messages.put(user.messages.get(id), user);
+//                    messages.put(user.messages.get(id), user);
 
+                    user.messages.remove((Integer) id);
+                    user.messages.remove(id - 1);
+                    user.messages.add(id, new Message(editMessage, id));
 
                     response.redirect("/");
                     return "";
@@ -101,7 +110,6 @@ public class Main {
                     User user = users.get(name);
                     user.messages.add(new Message(message, user.id++));
                     session.attribute("userMessage", message);
-                    messages.put(session.attribute("userMessage"), user);
                     response.redirect("/");
                     return "";
                 })
